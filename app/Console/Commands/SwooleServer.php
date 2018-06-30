@@ -118,6 +118,8 @@ class SwooleServer extends Command
                 return 'agent';
             case 'p':
                 return 'provider';
+            case 'd':
+                return 'driver';
         }
     }
 
@@ -242,12 +244,12 @@ class SwooleServer extends Command
                 break;
             case '4':
                 //给所有agent发消息
-                $agent_list = $this->_getAllUserFdByIdentity('agent');
+                $agent_list = $this->_getAllUserFdByIdentity($this->_getIdentity('a'));
                 $this->server->task(['fd' => $agent_list, 'msg' => $msg]);
                 break;
             case '5':
                 //给所有provider发消息
-                $provider_list = $this->_getAllUserFdByIdentity('provider');
+                $provider_list = $this->_getAllUserFdByIdentity($this->_getIdentity('p'));
                 $this->server->task(['fd' => $provider_list, 'msg' => $msg]);
                 break;
             case '6':

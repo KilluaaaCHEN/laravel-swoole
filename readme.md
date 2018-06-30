@@ -46,11 +46,10 @@
     $ redis-cli
     $ lpush de_queue '{"cmd":"case_status","datas":{"case_id":100,"status":6,"agent_id":"a10","provider_id":"p10"}}
     ``` 
-### 压测
-```bash
-php artisan command:pressure-test
-```
-- 打开`http://localhost:8000/pressure/test`会随机写入测试数据
+- 随机写入1千条数据发送给所有人
+    ```bash
+    php artisan command:pressure-test
+    ``` 
 ### 效果
 
 ![效果图](preview.gif)

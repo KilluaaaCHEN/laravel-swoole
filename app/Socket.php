@@ -1,6 +1,10 @@
 <?php
 
 namespace App;
+
+use Exception;
+use RuntimeException;
+
 /**
  * Created by PhpStorm.
  * User: Killua Chen
@@ -133,9 +137,11 @@ class Socket
      * @param string $type
      * @param bool $masked
      * @return bool
+     * @throws Exception
      */
     public function send($data, $type = 'text', $masked = false)
     {
+
         switch ($type) {
             case 'text':
                 $_type = WEBSOCKET_OPCODE_TEXT;
@@ -150,7 +156,11 @@ class Socket
             default:
                 return false;
         }
-        return $this->socket->send(\swoole_websocket_server::pack($data, $_type, true, $masked));
+        try {
+            return $this->socket->send(\swoole_websocket_server::pack($data, $_type, true, $masked));
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage(), 999);
+        }
     }
 
     /**

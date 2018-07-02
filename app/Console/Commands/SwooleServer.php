@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Helper\HRedis;
 use Illuminate\Console\Command;
 
 class SwooleServer extends Command
@@ -33,8 +34,7 @@ class SwooleServer extends Command
      */
     public function handle()
     {
-        $this->redis = new \Redis();
-        $this->redis->connect(env('REDIS_HOST'), env('REDIS_PORT'));
+        $this->redis = HRedis::getRedis();
         $keys = $this->redis->keys($this->key_login . '*');
         $this->redis->del($keys);
         $this->server = new \swoole_websocket_server("0.0.0.0", env('SWOOLE_PORT'));

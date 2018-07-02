@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Helper\HRedis;
 use Illuminate\Console\Command;
 
 class PressureTest extends Command
@@ -29,8 +30,7 @@ class PressureTest extends Command
     public function handle()
     {
         $s = time();
-        $r = new \Redis();
-        $r->connect(env('REDIS_HOST'), env('REDIS_PORT'));
+        $r = HRedis::getRedis();
         $count = 1000;//过大会造成浏览器卡死
         for ($i = 0; $i < $count; $i++) {
             $data = ['cmd' => 'case_status', 'datas' => ['case_id' => rand(1, 10000), 'status' => 6, 'agent_id' => 'a10', 'provider' => 'p10']];

@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Helper\HRedis;
 use App\Socket;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Console\Command;
@@ -30,8 +31,7 @@ class ListenQueue extends Command
      */
     public function handle()
     {
-        $r = new \Redis();
-        $r->connect(env('REDIS_HOST'), env('REDIS_PORT'));
+        $r = HRedis::getRedis();
         $client = new Socket(env('SWOOLE_HOST'), env('SWOOLE_PORT'));
         $client->connect();
         while (true) {
